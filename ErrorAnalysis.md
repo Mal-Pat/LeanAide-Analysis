@@ -2,9 +2,7 @@
 
 ## File1
 
-```
-LeanAide/results/gpt-4o/proofnet_valid1-elab-docString$8-concise-description$4-description$4-leansearch$5~moogle$4-10-8.json
-```
+`LeanAide/results/gpt-4o/proofnet_valid1-elab-docString$8-concise-description$4-description$4-leansearch$5~moogle$4-10-8.json`
 
 ### Failure 1
 
@@ -186,6 +184,17 @@ LeanAide/results/gpt-4o/proofnet_valid1-elab-docString$8-concise-description$4-d
       "∀ {α : Type ua} {β : Type ub} {γ : Type uc} [inst : UniformSpace α] [inst_1 : UniformSpace β] [inst_2 : UniformSpace γ]\n  {g : β → γ} {f : α → β},\n  UniformContinuous g → UniformContinuous f → UniformContinuous (g ∘ f)",
       "elabError":
       "unknown universe level '`ua' ; identifiers [α, ua, β, ub, γ, uc, inst, UniformSpace, α, inst_1, UniformSpace, β, inst_2, UniformSpace, γ, g, β, γ, f, α, β, UniformContinuous, g, UniformContinuous, f, UniformContinuous, g, f] (during elaboration) for ∀ {α : Type ua} {β : Type ub} {γ : Type uc} [inst : UniformSpace α] [inst_1 : UniformSpace β] [inst_2 : UniformSpace γ]\n  {g : β → γ} {f : α → β},\n  UniformContinuous g → UniformContinuous f → UniformContinuous (g ∘ f)",
+      "context?":
+      "A uniformly continuous function of a uniformly continuous function is uniformly continuous.",
+      "cmdErrors": []}}
+```
+
+```json
+{"parsed":
+     {"text":
+      "∀ {α : Type u} {β : Type v} {γ : Type w} [inst : UniformSpace α] [inst_1 : UniformSpace β] [inst_2 : UniformSpace γ] \n  {f : α → β} {g : β → γ}, UniformContinuous f → UniformContinuous g → UniformContinuous (g ∘ f)",
+      "elabError":
+      "stuck at solving universe constraint\n  v =?= max u ?u.26708354\nwhile trying to unify\n  Set.{max ?u.26708354 u} (Prod.{u, ?u.26708354} E ?m.26708782) : Type (max ?u.26708354 u)\nwith\n  Set (Prod.{u, ?u.26708354} E ?m.26708782) : Type v ; identifiers [α, u, β, v, γ, w, inst, UniformSpace, α, inst_1, UniformSpace, β, inst_2, UniformSpace, γ, f, α, β, g, β, γ, UniformContinuous, f, UniformContinuous, g, UniformContinuous, g, f] (during elaboration) for ∀ {α : Type u} {β : Type v} {γ : Type w} [inst : UniformSpace α] [inst_1 : UniformSpace β] [inst_2 : UniformSpace γ] \n  {f : α → β} {g : β → γ}, UniformContinuous f → UniformContinuous g → UniformContinuous (g ∘ f)",
       "context?":
       "A uniformly continuous function of a uniformly continuous function is uniformly continuous.",
       "cmdErrors": []}}
