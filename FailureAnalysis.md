@@ -1,10 +1,10 @@
 # Failure Analysis
 
-## File1
+# File1
 
 `LeanAide/results/gpt-4o/proofnet_valid1-elab-docString$8-concise-description$4-description$4-leansearch$5~moogle$4-10-8.json`
 
-### Failure 1
+## Failure 1
 
 ```json
 {"role": "user",
@@ -12,7 +12,7 @@
      "Translate the following statement into Lean 4:\n## Theorem: Suppose `k ≥ 3`, `x, y ∈ ℝ^k`, `|x - y| = d > 0`, and `r > 0`. Prove that if `2r > d`, there are infinitely many `z ∈ ℝ^k` such that `|z-x|=|z-y|=r`.\n\nGive ONLY the Lean code"}
 ```
 
-**Errors:**
+**Error Type 1**
 
 ```json
 {"parsed":
@@ -26,6 +26,8 @@
       ["failed to synthesize\n  Preorder (EuclideanSpace ℝ (Fin k))\nAdditional diagnostic information may be available using the `set_option diagnostics true` command."]}}
 ```
 
+**Error Type 2**
+
 ```json
 {"unparsed":
      {"text":
@@ -34,6 +36,8 @@
       "context?":
       "Suppose `k ≥ 3`, `x, y ∈ ℝ^k`, `|x - y| = d > 0`, and `r > 0`. Prove that if `2r > d`, there are infinitely many `z ∈ ℝ^k` such that `|z-x|=|z-y|=r`."}}
 ```
+
+**Error Type 3**
 
 ```json
 {"parsed":
@@ -47,6 +51,8 @@
       ["failed to synthesize\n  HPow Type ℕ ?m.1745\nAdditional diagnostic information may be available using the `set_option diagnostics true` command.",
        "failed to synthesize\n  HPow Type ℕ ?m.2303\nAdditional diagnostic information may be available using the `set_option diagnostics true` command."]}}
 ```
+
+**Error Type 4**
 
 ```json
 {"parsed":
@@ -63,7 +69,13 @@
        "failed to synthesize\n  Preorder (EuclideanSpace ℝ (Fin k))\nAdditional diagnostic information may be available using the `set_option diagnostics true` command."]}}
 ```
 
-### Failure 2
+> **Problems:**
+
+> **Solutions:**
+
+---
+
+## Failure 2
 
 ```json
 {"role": "user",
@@ -71,7 +83,16 @@
      "Translate the following statement into Lean 4:\n## Theorem: Suppose `E⊆ℝ^k` is uncountable, and let `P` be the set of condensation points of `E`. Prove that `P` is perfect.\n\nGive ONLY the Lean code"}
 ```
 
-**Errors:**
+**Correct Lean Code?? I don't think this accurately represents the statement:**
+
+```lean4
+import Mathlib.Topology.Instances.Real
+import Mathlib.Topology.Perfect
+
+example : ∀ {k : Type u} [inst : Fintype k] (E : Set (k → ℝ)), ¬Set.Countable E → ∀ (P : Set (k → ℝ)), P = {x ∈ E | ∀ (ε : ℝ), ε > 0 → (E ∩ Metric.ball x ε).Infinite} → Perfect P := by sorry
+```
+
+**Error Type 1**
 
 ```json
 {"parsed":
@@ -85,6 +106,14 @@
       ["function expected at\n  IsCondensationPoint\nterm has type\n  ?m.23"]}}
 ```
 
+> **Problem:**    
+> Unknown Identifier `IsCondensationPoint`
+
+> **Solutions:**  
+> Use an LLM to give the definition of the unknown term and use that to construct the Lean code
+
+**Error Type 2**
+
 ```json
 {"parsed":
      {"text":
@@ -97,6 +126,14 @@
       ["function expected at\n  condensationPoints\nterm has type\n  ?m.211"]}}
 ```
 
+> **Problem:**  
+> Unknown Identifier `k`  
+> `condensationPoints` is clearly an incorrect term
+
+> **Solutions:**  
+
+**Error Type 3**
+
 ```json
 {"unparsed":
      {"text":
@@ -106,6 +143,13 @@
       "Suppose `E⊆ℝ^k` is uncountable, and let `P` be the set of condensation points of `E`. Prove that `P` is perfect."}}
 ```
 
+> **Problem:**  
+> parseError
+
+> **Solutions:** 
+
+**Error Type 4**
+
 ```json
 {"unparsed":
      {"text":
@@ -114,6 +158,13 @@
       "context?":
       "Suppose `E⊆ℝ^k` is uncountable, and let `P` be the set of condensation points of `E`. Prove that `P` is perfect."}}
 ```
+
+> **Problem:**  
+> parseError
+
+> **Solutions:**  
+
+**Error Type 5**
 
 ```json
 {"parsed":
@@ -127,6 +178,15 @@
       ["function expected at\n  IsPerfect\nterm has type\n  ?m.18"]}}
 ```
 
+> **Problem:**  
+> Unknown Identifier `IsPerfect`
+
+> **Solutions:**  
+> Use an LLM to give the definition of the unknown term and use that to construct the Lean code.  
+> Or find the correct Mathlib term for it, which in this case is simply `Perfect` from `Mathlib.Topology.Perfect`
+
+**Error Type 6**
+
 ```json
 {"parsed":
      {"text":
@@ -138,13 +198,16 @@
       "cmdErrors": ["unknown identifier 'Metric.Ball'"]}}
 ```
 
-> **Problems:**
-> - Using unknown identifiers 'IsCondensationPoint', 'IsPerfect', 'Metric.Ball' and 'k'
-> - Small parseErrors
+> **Problem:**  
+> Unknown Identifier `Metric.Ball`
 
-> **Solutions:**
+> **Solutions:**  
+> Use an LLM to give the definition of the unknown term and use that to construct the Lean code.  
+> Or find the correct Mathlib term for it, which in this case is simply `Metric.ball`
 
-### Failure 3
+---
+
+## Failure 3
 
 ```json
 {"role": "user",
@@ -152,7 +215,7 @@
      "Translate the following statement into Lean 4:\n## Theorem: Let `E` be a bounded set in `ℝ^1`. Prove that there exists a real function `f` such that `f` is uniformly continuous and is not bounded on `E`.\n\nGive ONLY the Lean code"}
 ```
 
-**Errors:**
+**Error Type 1**
 
 ```json
 {"unparsed":
@@ -163,12 +226,15 @@
       "Let `E` be a bounded set in `ℝ^1`. Prove that there exists a real function `f` such that `f` is uniformly continuous and is not bounded on `E`."}}
 ```
 
-> **Problem:** LLM attempts to correct the false statement instead of formalising it to Lean.
+> **Problem:**  
+> LLM attempts to correct the false statement instead of formalising it to Lean.
 
-> **Solutions:**
-> - Prompting *"The statement may be true or false. Don't correct the statement. Give ONLY the Lean code"*
+> **Solutions:**  
+> Prompting *"The statement may be true or false. Don't correct the statement. Give ONLY the Lean code"*
 
-### Failure 4
+---
+
+## Failure 4 (Resolved)
 
 ```json
 {"role": "user",
@@ -176,7 +242,20 @@
      "Translate the following statement into Lean 4:\n## Theorem: A uniformly continuous function of a uniformly continuous function is uniformly continuous.\n\nGive ONLY the Lean code"}
 ```
 
-**Errors:**
+> **Notes:**  
+> Resolved both errors by switching to elaborating as commands
+
+**Correct Lean Code:**
+
+```lean4
+import Mathlib.Topology.UniformSpace.Basic
+
+example : ∀ {α : Type ua} {β : Type ub} {γ : Type uc} [inst : UniformSpace α] [inst_1 : UniformSpace β] [inst_2 : UniformSpace γ] {g : β → γ} {f : α → β},  UniformContinuous g → UniformContinuous f → UniformContinuous (g ∘ f) := by sorry
+
+example : ∀ {α : Type u} {β : Type v} {γ : Type w} [inst : UniformSpace α] [inst_1 : UniformSpace β] [inst_2 : UniformSpace γ] {f : α → β} {g : β → γ}, UniformContinuous f → UniformContinuous g → UniformContinuous (g ∘ f) := by sorry
+```
+
+**Error Type 1**
 
 ```json
 {"parsed":
@@ -189,6 +268,8 @@
       "cmdErrors": []}}
 ```
 
+**Error Type 2**
+
 ```json
 {"parsed":
      {"text":
@@ -200,7 +281,15 @@
       "cmdErrors": []}}
 ```
 
-### Failure 5
+> **Problem:**  
+> Error while elaborating as Type but not as Command (notice that cmdErrors is empty)
+
+> **Solutions:**  
+> Switch to elaborating as commands to check validity (Issue created on LeanAide GitHub)
+
+---
+
+## Failure 5 (Resolved)
 
 ```json
 {"role": "user",
@@ -208,7 +297,18 @@
      "Translate the following statement into Lean 4:\n## Theorem: Suppose `f` is a real function with domain `ℝ^1` which has the intermediate value property: if `f(a) < c < f(b)`, then `f(x) = c` for some `x` between `a` and `b`. Suppose also, for every rational `r`, that the set of all `x` with `f(x) = r` is closed. Prove that `f` is continuous.\n\nGive ONLY the Lean code"}
 ```
 
-**Errors:**
+> **Notes:**  
+> Resolved in Error 1 by switching to elaborating as commands
+
+**Correct Lean Code:**
+
+```lean4
+import Mathlib.Topology.Instances.Real
+
+example : ∀ {f : ℝ → ℝ}, (∀ a b c, f a < c → c < f b → ∃ x ∈ Set.Icc a b, f x = c) → (∀ r : ℚ, IsClosed {x : ℝ | f x = r}) → Continuous f := by sorry
+```
+
+**Error Type 1**
 
 ```json
 {"parsed":
@@ -221,7 +321,15 @@
       "cmdErrors": []}}
 ```
 
-### Failure 6
+> **Problems:**  
+> Error while elaborating as Type but not as Command (notice that cmdErrors is empty)
+
+> **Solutions:**  
+> Switch to elaborating as commands to check validity (Issue created on LeanAide GitHub)
+
+---
+
+## Failure 6 (Partially Resolved)
 
 ```json
 {"role": "user",
@@ -229,7 +337,21 @@
      "Translate the following statement into Lean 4:\n## Theorem: Assume that `f` is a continuous real function defined in `(a, b)` such that `f((x+y)/2) ≤ (f(x)+f(y))/2` for all `x, y ∈ (a, b)`. Prove that `f` is convex.\n\nGive ONLY the Lean code"}
 ```
 
-**Errors:**
+> **Notes:**  
+> Partially Resolved in Error 2 by switching to elaborating as commands
+
+**Correct Lean Code:**
+
+```lean4
+import Mathlib.Analysis.Convex.Function
+import Mathlib.Topology.Instances.Real
+
+example : ∀ {f : ℝ → ℝ} {a b : ℝ}, (∀ x y : ℝ, x ∈ Set.Ioo a b → y ∈ Set.Ioo a b → f ((x + y) / 2) ≤ (f x + f y) / 2) → ContinuousOn f (Set.Ioo a b) → ConvexOn ℝ (Set.Ioo a b) f := by sorry
+
+example : ∀ {f : ℝ → ℝ} {a b : ℝ}, (∀ x y, a < x → x < b → a < y → y < b → f ((x + y) / 2) ≤ (f x + f y) / 2) → ContinuousOn f (Set.Ioo a b) → ConvexOn ℝ (Set.Ioo a b) f := by sorry
+```
+
+**Error Type 1**
 
 ```json
 {"parsed":
@@ -246,6 +368,14 @@
        "function expected at\n  Ioo\nterm has type\n  ?m.96"]}}
 ```
 
+> **Problem:**  
+> `Ioo` is an unknown identifier. Replacing `Ioo` with `Set.Ioo` fixes the issue.
+
+> **Solutions:**   
+> 
+
+**Error Type 2**
+
 ```json
 {"parsed":
      {"text":
@@ -257,6 +387,14 @@
       "cmdErrors": []}}
 ```
 
+> **Problem:**  
+> Error while elaborating as Type but not as Command (notice that cmdErrors is empty)
+
+> **Solutions:**   
+> Switch to elaborating as commands to check validity (Issue created on LeanAide GitHub)
+
+**Error Type 3**
+
 ```json
 {"unparsed":
      {"text":
@@ -265,3 +403,13 @@
       "context?":
       "Assume that `f` is a continuous real function defined in `(a, b)` such that `f((x+y)/2) ≤ (f(x)+f(y))/2` for all `x, y ∈ (a, b)`. Prove that `f` is convex."}}
 ```
+
+> **Problem:**  
+> Simple parseError with incorrect syntax
+
+> **Solutions:**   
+> 
+
+---
+
+---
