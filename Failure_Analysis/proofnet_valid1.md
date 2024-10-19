@@ -158,7 +158,7 @@ example : ∀ {k : Type u} [inst : Fintype k] (E : Set (k → ℝ)), ¬Set.Count
 ```
 
 > **Problem:**  
-> parseError
+> parseError - might be a Lean3 notation issue.
 
 > **Solutions:** 
 
