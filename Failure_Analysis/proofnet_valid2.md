@@ -1,6 +1,6 @@
 # Failure Analysis
 
-# File 2 - proofnet_valid2
+# File - proofnet_valid2
 
 `LeanAide/results/gpt-4o/proofnet_valid2-elab-docString$8-concise-description$4-description$4-leansearch$5~moogle$4-10-8.json`
 
