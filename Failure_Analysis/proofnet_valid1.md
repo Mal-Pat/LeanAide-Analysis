@@ -1,8 +1,11 @@
 # Failure Analysis
 
-# File1
+# File 1 - proofnet_valid1
 
 `LeanAide/results/gpt-4o/proofnet_valid1-elab-docString$8-concise-description$4-description$4-leansearch$5~moogle$4-10-8.json`
+
+> **Notes:**  
+> All Failures except Failure 1 have been analysed as of now.
 
 ## Failure 1
 
@@ -11,6 +14,11 @@
      "content":
      "Translate the following statement into Lean 4:\n## Theorem: Suppose `k ≥ 3`, `x, y ∈ ℝ^k`, `|x - y| = d > 0`, and `r > 0`. Prove that if `2r > d`, there are infinitely many `z ∈ ℝ^k` such that `|z-x|=|z-y|=r`.\n\nGive ONLY the Lean code"}
 ```
+
+> **Notes:**
+> Not yet analysed.
+
+**Corrected Lean Code:**
 
 **Error Type 1**
 
@@ -83,7 +91,12 @@
      "Translate the following statement into Lean 4:\n## Theorem: Suppose `E⊆ℝ^k` is uncountable, and let `P` be the set of condensation points of `E`. Prove that `P` is perfect.\n\nGive ONLY the Lean code"}
 ```
 
-**Correct Lean Code?? I don't think this accurately represents the statement:**
+> **Notes:**  
+> The main problem is that Mathlib hasn't formalized condensation points yet.  
+> In Error 3 and 4, we can see that the LLM has used the definition of a condensation point to try to formalize it (as opposed to trying to find it in Mathlib). However, it still does have minor errors. I think the important thing to focus on here is to try to re-word the statement with the definition of the unknown term accurately, and then attempt to formalize it. We should try to see the difference between when a human mathematician does it versus an LLM.
+
+**This code, edited from Error 3, runs without any errors.**
+**However, it is NOT a correct formalisation of the statement.**
 
 ```lean4
 import Mathlib.Topology.Instances.Real
@@ -110,7 +123,8 @@ example : ∀ {k : Type u} [inst : Fintype k] (E : Set (k → ℝ)), ¬Set.Count
 > Unknown Identifier `IsCondensationPoint`
 
 > **Solutions:**  
-> Use an LLM to give the definition of the unknown term and use that to construct the Lean code
+> Use an LLM to give the definition of the unknown term, and first re-word the statement with that definition, and then formalize the new statement.
+> Or is it just enough to tell the LLM to use the definition of the unknown term without re-wording the statement? I think this would be more prone to errors.
 
 **Error Type 2**
 
@@ -227,7 +241,7 @@ example : ∀ {k : Type u} [inst : Fintype k] (E : Set (k → ℝ)), ¬Set.Count
 ```
 
 > **Problem:**  
-> LLM attempts to correct the false statement instead of formalising it to Lean.
+> LLM attempts to correct the false statement instead of formalizing it.
 
 > **Solutions:**  
 > Prompting *"The statement may be true or false. Don't correct the statement. Give ONLY the Lean code"*
@@ -409,7 +423,5 @@ example : ∀ {f : ℝ → ℝ} {a b : ℝ}, (∀ x y, a < x → x < b → a < y
 
 > **Solutions:**   
 > 
-
----
 
 ---
