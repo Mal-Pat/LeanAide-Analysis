@@ -188,8 +188,8 @@ Analysing the successes where `"checks": [false]` in the new proofnet_valid1 fil
 
 > **Problem:**  
 > 
-> I'm not sure `checksData` is correct in its accusation here, although I may be wrong.  
-> All the elaborations are also similar to the first formalized theorem.
+> `checksData` figures out the correct reason why `"checks": [false]`, no problem there.
+> Correct answer isn't present in any of the elaborations.
 
 ```json
 "elaboration-groups":
