@@ -188,7 +188,7 @@ Analysing the successes where `"checks": [false]` in the new proofnet_valid1 fil
 
 > **Problem:**  
 > 
-> `checksData` figures out the correct reason why `"checks": [false]`, no problem there.
+> `checksData` figures out the correct reason why `"checks": [false]`, no problem there.  
 > Correct answer isn't present in any of the elaborations.
 
 ```json
@@ -205,6 +205,84 @@ Analysing the successes where `"checks": [false]` in the new proofnet_valid1 fil
     "∀ {X : Type u_1} {Y : Type u_2} [inst : MetricSpace X] [inst_1 : MetricSpace Y]\n  {E : Set X} {f g : X → Y},\n  Dense E → Continuous f → Continuous g → Dense (f '' E)",
     "∀ {X : Type u_1} {Y : Type u_2} [inst : MetricSpace X] [inst_1 : MetricSpace Y] {E : Set X} {f g : X → Y},\n  Continuous f → Continuous g → Dense E → Dense (f '' E)",
     "∀ {X : Type u} {Y : Type v} [inst : MetricSpace X] [inst_1 : MetricSpace Y] {f g : X → Y} {E : Set X},\n  Continuous f → Continuous g → Dense E → Dense (f '' E)"]
+```
+
+---
+
+## Success 20
+
+```json
+"theorem":
+   "∀ {E : Type u} {F : Type v} [inst : TopologicalSpace E] [inst_1 : TopologicalSpace F] {f : E → F} {s : Set E},\n  IsCompact s → (ContinuousOn f s ↔ IsCompact (s.prod (f '' s)))",
+   "text":
+   "If `f` is defined on `E`, the graph of `f` is the set of points `(x, f(x))`, for `x ∈ E`. In particular, if `E` is a set of real numbers, and `f` is real-valued, the graph of `f` is a subset of the plane. Suppose `E` is compact, and prove that `f` is continuous on `E` if and only if its graph is compact.",
+   "success":
+   {"translation":
+    "For any types $E$ and $F$ equipped with topological spaces, a function $f: E \\to F$, and a set $s \\subseteq E$, if $s$ is compact, then $f$ is continuous on $s$ if and only if the product set $s \\times f(s)$ is compact.",
+    "statement":
+    "If `f` is defined on `E`, the graph of `f` is the set of points `(x, f(x))`, for `x ∈ E`. In particular, if `E` is a set of real numbers, and `f` is real-valued, the graph of `f` is a subset of the plane. Suppose `E` is compact, and prove that `f` is continuous on `E` if and only if its graph is compact.",
+    "checksData":
+    ["false\nTheorem 2 is more general, applying to arbitrary topological spaces and compact subsets, whereas Theorem 1 specifically concerns real-valued functions on compact subsets of the real line."],
+    "checks": [false]},
+   "result-obtained": true
+```
+
+> **Problem:**  
+> 
+> `checksData` doesn't quite get it right.  
+> The main issue is that the formalized theorem is taking all possible product pairs from `s` and `f(s)` at `s.prod (f '' s)`, while we only want the set of pairs `(x,f(x))` where `x ∈ s`.  
+> The elaborations without `s.prod (f '' s)` are probably correct.  
+
+```json
+"elaboration-groups":
+   [["∀ {E : Type u} {F : Type v} [inst : TopologicalSpace E] [inst_1 : TopologicalSpace F] {f : E → F} {s : Set E},\n  IsCompact s → (ContinuousOn f s ↔ IsCompact (s.prod (f '' s)))"],
+    ["∀ {E : Type u} [inst : TopologicalSpace E] {F : Type v} [inst_1 : TopologicalSpace F] {f : E → F} {s : Set E},\n  IsCompact s → (ContinuousOn f s ↔ IsCompact ((Set.range fun x => (x, f x)) ∩ s ×ˢ Set.univ))"],
+    ["∀ {E : Type u} {F : Type v} [inst : TopologicalSpace E] [inst_1 : TopologicalSpace F]\n  [inst_2 : TopologicalSpace (E × F)] {f : E → F} {s : Set E},\n  IsCompact s → (ContinuousOn f s ↔ IsCompact ((fun x => (x, f x)) '' s))"]],
+   "all-elaborations":
+   ["∀ {E : Type u} [inst : TopologicalSpace E] {F : Type v} [inst_1 : TopologicalSpace F] {f : E → F} {s : Set E},\n  IsCompact s →\n  (ContinuousOn f s ↔ IsCompact (Set.range (fun x => (x, f x)) ∩ (s ×ˢ Set.univ)))",
+    "∀ {E : Type u} {F : Type v} [inst : TopologicalSpace E] [inst_1 : TopologicalSpace F] [inst_2 : TopologicalSpace (E × F)]\n  {f : E → F} {s : Set E},\n  IsCompact s →\n    (ContinuousOn f s ↔ IsCompact (Set.image (fun x => (x, f x)) s))",
+    "∀ {E : Type u} {F : Type v} [TopologicalSpace E] [TopologicalSpace F] {f : E → F} {s : Set E},\n  IsCompact s → (ContinuousOn f s ↔ IsCompact (Set.prod s (f '' s)))"]
+```
+
+---
+
+## Success 21
+
+```json
+"theorem":
+   "∃ E f, BddBelow E ∧ BddAbove E ∧ UniformContinuousOn f E ∧ ¬BddAbove (f '' E)",
+   "text":
+   "Let `E` be a bounded set in `ℝ^1`. Prove that there exists a real function `f` such that `f` is uniformly continuous and is not bounded on `E`.",
+   "success":
+   {"translation":
+    "There exist a set $E$ and a function $f$ such that $E$ is bounded below and bounded above, $f$ is uniformly continuous on $E$, and the image of $E$ under $f$, denoted $f(E)$, is not bounded above.",
+    "statement":
+    "Let `E` be a bounded set in `ℝ^1`. Prove that there exists a real function `f` such that `f` is uniformly continuous and is not bounded on `E`.",
+    "checksData":
+    ["false\nTheorem 1 holds for every bounded set E, whereas Theorem 2 only asserts the existence of such a set and function."],
+    "checks": [false]},
+   "result-obtained": true
+```
+
+> **Problem:**  
+> 
+> The Lean4 code for the formalized theorem gives an error `typeclass instance problem is stuck, it is often due to metavariables Preorder (?m.108165 E)` at `¬BddAbove (f '' E)`.  
+> `checksData` figures out the correct reason why `"checks": [false]`, no problem there.  
+
+---
+
+## Success
+
+```json
+
+```
+
+> **Problem:**  
+> 
+> 
+
+```json
+
 ```
 
 ---
