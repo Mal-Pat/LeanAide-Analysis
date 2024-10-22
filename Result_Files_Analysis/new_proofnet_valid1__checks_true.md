@@ -215,6 +215,49 @@ Analysing the successes where `"checks": [true]` in the new proofnet_valid1 file
 
 ---
 
+## Success 19
+
+```json
+"theorem":
+   "∀ {f : ℝ → ℝ} {E : Set ℝ}, IsClosed E → ContinuousOn f E → ∃ g, ∀ x ∈ E, g x = f x",
+   "text":
+   "If `f` is a real continuous function defined on a closed set `E ⊆ ℝ`, prove that there exist continuous real functions `g` on `ℝ` such that `g(x)=f(x)` for all `x ∈ E`.",
+   "success":
+   {"translation":
+    "If \\( E \\) is a closed subset of the real numbers and a function \\( f \\) is continuous on \\( E \\), then there exists a function \\( g \\) defined on the entire real line such that \\( g(x) = f(x) \\) for all \\( x \\in E \\).",
+    "statement":
+    "If `f` is a real continuous function defined on a closed set `E ⊆ ℝ`, prove that there exist continuous real functions `g` on `ℝ` such that `g(x)=f(x)` for all `x ∈ E`.",
+    "checksData": ["true"],
+    "checks": [true]},
+   "result-obtained": true
+```
+
+> **Problem:**  
+> 
+> Error `function expected at g, term has type ?m.103843` in Lean4.
+> Replacing `∃ g` with `∃ g : ℝ → ℝ` solves the issue.
+> `all-elaborations` does contain correct formalizations with the type of `g` specified.
+
+```json
+"elaboration-groups":
+   [["∀ {f : ℝ → ℝ} {E : Set ℝ}, IsClosed E → ContinuousOn f E → ∃ g, ∀ x ∈ E, g x = f x",
+     "∀ {E : Set ℝ} (f : ℝ → ℝ), IsClosed E → ContinuousOn f E → ∃ g, ∀ x ∈ E, g x = f x",
+     "∀ {E : Set ℝ} (f : ℝ → ℝ), IsClosed E → ContinuousOn f E → ∃ g, Set.EqOn (⇑g) f E",
+     "∀ {E : Set ℝ} {f : ℝ → ℝ}, IsClosed E → ContinuousOn f E → ∃ g, ∀ x ∈ E, g x = f x",
+     "∀ {E : Set ℝ} (f : ℝ → ℝ), IsClosed E → ContinuousOn f E → ∃ g, ∀ x ∈ E, g x = f x"]],
+   "all-elaborations":
+   ["∀ {f : ℝ → ℝ} {E : Set ℝ}, IsClosed E → ContinuousOn f E → ∃ g : C(ℝ, ℝ), ∀ x ∈ E, g x = f x",
+    "∀ {E : Set ℝ} (f : ℝ → ℝ), IsClosed E → ContinuousOn f E → ∃ g : C(ℝ, ℝ), ∀ x ∈ E, g x = f x",
+    "∀ {E : Set ℝ} (f : ℝ → ℝ), IsClosed E → ContinuousOn f E → ∃ g : C(ℝ, ℝ), Set.EqOn g f E",
+    "∀ {E : Set ℝ} {f : ℝ → ℝ}, IsClosed E → ContinuousOn f E → ∃ g : C(ℝ, ℝ), ∀ x ∈ E, g x = f x",
+    "∀ {E : Set ℝ} (f : ℝ → ℝ), IsClosed E → ContinuousOn f E → ∃ g : C(ℝ, ℝ), ∀ x ∈ E, g x = f x",
+    "∀ {f : ℝ → ℝ} {E : Set ℝ}, IsClosed E → ContinuousOn f E → ∃ g : C(ℝ, ℝ), Set.EqOn g f E",
+    "∀ {f : ℝ → ℝ} {E : Set ℝ}, IsClosed E → ContinuousOn f E → ∃ g : ℝ → ℝ, Continuous g ∧ Set.EqOn g f E",
+    "∀ {E : Set ℝ} {f : ℝ → ℝ}, IsClosed E → ContinuousOn f E → ∃ g : C(ℝ, ℝ), ∀ x ∈ E, g x = f x"]
+```
+
+---
+
 ## Success
 
 ```json
