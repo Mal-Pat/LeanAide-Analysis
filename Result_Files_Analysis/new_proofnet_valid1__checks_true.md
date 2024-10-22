@@ -1,6 +1,6 @@
 # Checking Successes
 
-Analysing the successes in the new proofnet_valid1 file.
+Analysing the successes where `"checks": [true]` in the new proofnet_valid1 file.
 
 # File - new proofnet_valid1
 
@@ -162,7 +162,71 @@ Analysing the successes in the new proofnet_valid1 file.
 > example : ∀ {X : Type u} [inst : MetricSpace X], (∀ (s : Set X), s.Infinite → ∃ x, x ∈ closure s \ s) → TopologicalSpace.SeparableSpace X := by sorry
 > ```
 >
-> I don't think this is the correct formalization of the statement.  
+> Incorrect formalization of the statement.  
+> The infinite subset could be closed, in which case the formalized statement doesn't match the text
 > Lean4 doesn't give any errors.
+
+---
+
+## Success 15
+
+```json
+"theorem":
+   "∀ {α : Type u} [inst : MetricSpace α] {p_n : ℕ → α} {p : α},\n  CauchySeq p_n →\n    (∃ l, StrictMono l ∧ Filter.Tendsto (p_n ∘ l) Filter.atTop (nhds p)) → Filter.Tendsto p_n Filter.atTop (nhds p)",
+   "text":
+   "Suppose `{p_n}` is a Cauchy sequence in a metric space `X`, and some sequence `{p_{n l}}` converges to a point `p ∈ X`. Prove that the full sequence `{p_n}` converges to `p`.",
+   "success":
+   {"translation":
+    "In any metric space, if a sequence is Cauchy and there exists a strictly increasing subsequence that converges to a point $p$, then the original sequence also converges to $p$.",
+    "statement":
+    "Suppose `{p_n}` is a Cauchy sequence in a metric space `X`, and some sequence `{p_{n l}}` converges to a point `p ∈ X`. Prove that the full sequence `{p_n}` converges to `p`.",
+    "checksData": ["true"],
+    "checks": [true]},
+   "result-obtained": true
+```
+
+> **Problem:**  
+> 
+> Error `typeclass instance problem is stuck, it is often due to metavariables Preorder ?m.94491` at the first `Filter.atTop` in the theorem.  
+> `all-elaborations` does contain a formalization that runs without any errors, given below.
+> 
+> ```lean4
+> example : ∀ {X : Type u} [inst : MetricSpace X] {p_n : ℕ → X} {p : X} (n_l : ℕ → ℕ), CauchySeq p_n → Filter.Tendsto (fun i => p_n (n_l i)) Filter.atTop (nhds p) → Filter.Tendsto p_n Filter.atTop (nhds p) := by sorry
+> ```
+
+```json
+"elaboration-groups":
+   [["∀ {α : Type u} [inst : MetricSpace α] {p_n : ℕ → α} {p : α},\n  CauchySeq p_n →\n    (∃ l, StrictMono l ∧ Filter.Tendsto (p_n ∘ l) Filter.atTop (nhds p)) → Filter.Tendsto p_n Filter.atTop (nhds p)",
+     "∀ {X : Type u} [inst : MetricSpace X] {p : ℕ → X} {p' : X},\n  CauchySeq p →\n    (∃ l, StrictMono l ∧ Filter.Tendsto (p ∘ l) Filter.atTop (nhds p')) → Filter.Tendsto p Filter.atTop (nhds p')",
+     "∀ {X : Type u} [inst : MetricSpace X] {p : ℕ → X} (l : ℕ → ℕ),\n  StrictMono l →\n    ∀ {q : X}, CauchySeq p → Filter.Tendsto (p ∘ l) Filter.atTop (nhds q) → Filter.Tendsto p Filter.atTop (nhds q)"],
+    ["∀ {X : Type u} [inst : MetricSpace X] (p : ℕ → X) {l : ℕ → ℕ} (plim : X),\n  CauchySeq p → Filter.Tendsto (p ∘ l) Filter.atTop (nhds plim) → Filter.Tendsto p Filter.atTop (nhds plim)"],
+    ["∀ {X : Type u} [inst : MetricSpace X] {p_n : ℕ → X} {p : X}, CauchySeq p_n → Filter.Tendsto p_n Filter.atTop (nhds p)"]],
+   "all-elaborations":
+   ["∀ {α : Type u} [inst : MetricSpace α] {p_n : ℕ → α} {p : α},\n  CauchySeq p_n → (∃ l : ℕ → ℕ, StrictMono l ∧ Filter.Tendsto (p_n ∘ l) Filter.atTop (nhds p)) → Filter.Tendsto p_n Filter.atTop (nhds p)",
+    "∀ {X : Type u} [inst : MetricSpace X] {p : ℕ → X} {p' : X},\n  CauchySeq p →\n  (∃ (l : ℕ → ℕ), StrictMono l ∧ Filter.Tendsto (p ∘ l) Filter.atTop (nhds p')) →\n  Filter.Tendsto p Filter.atTop (nhds p')",
+    "∀ {X : Type u} [inst : MetricSpace X] {p_n : ℕ → X} {p : X},\n  CauchySeq p_n →\n    ∃ {l : ℕ → ℕ}, StrictMono l ∧ Filter.Tendsto (fun n => p_n (l n)) Filter.atTop (nhds p) →\n      Filter.Tendsto p_n Filter.atTop (nhds p)",
+    "∀ {X : Type u} [inst : MetricSpace X] {p : ℕ → X} \n  (l : ℕ → ℕ) (hl : StrictMono l) {q : X},\n  CauchySeq p →\n  Filter.Tendsto (p ∘ l) Filter.atTop (nhds q) →\n  Filter.Tendsto p Filter.atTop (nhds q)",
+    "∀ {X : Type u} [inst : MetricSpace X] (p : ℕ → X) {l : ℕ → ℕ} (plim : X),\n  CauchySeq p →\n  Filter.Tendsto (p ∘ l) Filter.atTop (nhds plim) →\n  Filter.Tendsto p Filter.atTop (nhds plim)",
+    "∀ {X : Type u} [inst : MetricSpace X] {p : ℕ → X} {p_l : ℕ → ℕ} {l : X},\n  CauchySeq p →\n  (∀ m, p (p_l m) = l) →\n  Filter.Tendsto (fun n => p (p_l n)) Filter.atTop (nhds l) →\n  Filter.Tendsto p Filter.atTop (nhds l)",
+    "∀ {X : Type u} [inst : MetricSpace X] {p_n : ℕ → X} {p : X} (n_l : ℕ → ℕ),\n  CauchySeq p_n →\n    Filter.Tendsto (fun i => p_n (n_l i)) Filter.atTop (nhds p) → Filter.Tendsto p_n Filter.atTop (nhds p)",
+    "∀ {X : Type u} [inst : MetricSpace X] {p_n : ℕ → X} {p_n_l : ℕ → ℕ} {p : X},\n  CauchySeq p_n →\n    Filter.Tendsto (p_n ∘ p_n_l) Filter.atTop (nhds p) → Filter.Tendsto p_n Filter.atTop (nhds p)",
+    "∀ {X : Type u} [inst : MetricSpace X] {p_n : ℕ → X} {p : X} (n_l : ℕ → ℕ),\n  CauchySeq p_n →\n    Filter.Tendsto (fun l => p_n (n_l l)) Filter.atTop (nhds p) →\n    Filter.Tendsto p_n Filter.atTop (nhds p)"]
+```
+
+---
+
+## Success
+
+```json
+
+```
+
+> **Problem:**  
+> 
+> 
+
+```json
+
+```
 
 ---
