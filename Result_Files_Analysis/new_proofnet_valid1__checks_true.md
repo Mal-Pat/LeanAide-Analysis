@@ -163,7 +163,7 @@ Analysing the successes where `"checks": [true]` in the new proofnet_valid1 file
 > ```
 >
 > Incorrect formalization of the statement.  
-> The infinite subset could be closed, in which case the formalized statement doesn't match the text
+> The infinite subset could be closed, in which case the formalized statement doesn't match the text.  
 > Lean4 doesn't give any errors.
 
 ---
@@ -188,7 +188,7 @@ Analysing the successes where `"checks": [true]` in the new proofnet_valid1 file
 > **Problem:**  
 > 
 > Error `typeclass instance problem is stuck, it is often due to metavariables Preorder ?m.94491` at the first `Filter.atTop` in the theorem.  
-> `all-elaborations` does contain a formalization that runs without any errors, given below.
+> `all-elaborations` does contain a formalization that runs without any errors, given below.  
 > 
 > ```lean4
 > example : ∀ {X : Type u} [inst : MetricSpace X] {p_n : ℕ → X} {p : X} (n_l : ℕ → ℕ), CauchySeq p_n → Filter.Tendsto (fun i => p_n (n_l i)) Filter.atTop (nhds p) → Filter.Tendsto p_n Filter.atTop (nhds p) := by sorry
@@ -234,9 +234,9 @@ Analysing the successes where `"checks": [true]` in the new proofnet_valid1 file
 
 > **Problem:**  
 > 
-> Error `function expected at g, term has type ?m.103843` in Lean4.
-> Replacing `∃ g` with `∃ g : ℝ → ℝ` solves the issue.
-> `all-elaborations` does contain correct formalizations with the type of `g` specified.
+> Error `function expected at g, term has type ?m.103843` in Lean4.  
+> Replacing `∃ g` with `∃ g : ℝ → ℝ` solves the issue.  
+> `all-elaborations` does contain correct formalizations with the type of `g` specified.  
 
 ```json
 "elaboration-groups":
