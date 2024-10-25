@@ -231,7 +231,7 @@ Analysing the successes where `"checks": [false]` in the new proofnet_valid1 fil
 > 
 > `checksData` doesn't quite get it right.  
 > The main issue is that the formalized theorem is taking all possible product pairs from `s` and `f(s)` at `s.prod (f '' s)`, while we only want the set of pairs `(x,f(x))` where `x ∈ s`.  
-> The elaborations without `s.prod (f '' s)` are probably correct.  
+> Correct answer isn't present in any of the elaborations. 
 
 ```json
 "elaboration-groups":

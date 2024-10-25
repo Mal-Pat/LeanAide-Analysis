@@ -73,7 +73,7 @@ Analysing the successes where `"checks": [true]` in the new proofnet_valid1 file
 > ```
 >
 > Lean4 interprets `r : Nat` even though `r` is supposed to be real.  
-> `all-elaborations` does contain the actual correct answer.
+> `all-elaborations` does contain the actual correct answer.  
 
 ```json
 "elaboration-groups":
@@ -127,15 +127,15 @@ Analysing the successes where `"checks": [true]` in the new proofnet_valid1 file
 > example : ∀ {k : ℕ} {x : EuclideanSpace ℝ (Fin k)}, 2 ≤ k → ∃ y, y ≠ 0 ∧ ⟪x, y⟫_ℕ = 0 := by sorry
 > ```
 >
-> Error: `expected term` at `⟪x, y⟫_ℕ`
+> Error: `expected term` at `⟪x, y⟫_ℕ`  
 >
-> In the `"all-elaborations":`
+> In the `"all-elaborations":`  
 >
 > ```lean4
 > example : ∀ {k : ℕ} {x : EuclideanSpace ℝ (Fin k)}, 2 ≤ k → ∃ y : EuclideanSpace ℝ (Fin k), y ≠ 0 ∧ inner x y = 0 := by sorry
 > ```
 >
-> Error: ``failed to synthesize Inner ℕ (EuclideanSpace ℝ (Fin k))``
+> Error: ``failed to synthesize Inner ℕ (EuclideanSpace ℝ (Fin k))``  
 
 ---
 
