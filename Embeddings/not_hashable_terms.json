@@ -1,0 +1,54 @@
+[
+    {
+        "term": "0",
+        "type": "number"
+    },
+    {
+        "term": "\u2264",
+        "type": "inequality"
+    },
+    {
+        "term": "1",
+        "type": "number"
+    },
+    {
+        "term": "<",
+        "type": "inequality"
+    },
+    {
+        "term": "n",
+        "type": "number"
+    },
+    {
+        "term": "*",
+        "type": "multiplication operator"
+    },
+    {
+        "term": "r",
+        "type": "number"
+    },
+    {
+        "term": "^",
+        "type": "exponentiation operator"
+    },
+    {
+        "term": "tends to",
+        "type": "limit concept"
+    },
+    {
+        "term": "zero",
+        "type": "number"
+    },
+    {
+        "term": "tendsto_self_mul_const_pow_of_abs_lt_one",
+        "type": "mathematical theorem"
+    },
+    {
+        "term": "specialized version",
+        "type": "concept"
+    },
+    {
+        "term": "ease of application",
+        "type": "concept"
+    }
+]

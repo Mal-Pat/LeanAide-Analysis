@@ -271,18 +271,27 @@ Analysing the successes where `"checks": [false]` in the new proofnet_valid1 fil
 
 ---
 
-## Success
+## Success 24
 
 ```json
-
+"theorem":
+   "∀ {a b : ℝ} {f : ℝ → ℝ},\n  (∀ x ∈ Set.Ioo a b, ∀ y ∈ Set.Ioo a b, f ((x + y) / 2) ≤ (f x + f y) / 2) →\n    ContinuousOn f (Set.Ioo a b) → ConvexOn ℝ (Set.Ioo a b) f",
+   "text":
+   "Assume that `f` is a continuous real function defined in `(a, b)` such that `f((x+y)/2) ≤ (f(x)+f(y))/2` for all `x, y ∈ (a, b)`. Prove that `f` is convex.",
+   "success":
+   {"translation":
+    "The theorem states that for any real numbers $a$ and $b$ and any function $f: \\mathbb{R} \\to \\mathbb{R}$, if $f$ satisfies the midpoint convexity condition $\\forall x, y \\in (a, b), \\, f\\left(\\frac{x + y}{2}\\right) \\leq \\frac{f(x) + f(y)}{2}$ and is continuous on the open interval $(a, b)$, then $f$ is convex on $(a, b)$.",
+    "statement":
+    "Assume that `f` is a continuous real function defined in `(a, b)` such that `f((x+y)/2) ≤ (f(x)+f(y))/2` for all `x, y ∈ (a, b)`. Prove that `f` is convex.",
+    "checksData":
+    ["false\nTheorem 1 applies to a specific interval (a, b) while Theorem 2 asserts the result for any such interval."],
+    "checks": [false]},
+   "result-obtained": true
 ```
 
 > **Problem:**  
 > 
-> 
-
-```json
-
-```
+> There is no problem in the formalization here.  
+> `"checks":` incorrectly flags this as `false`.
 
 ---
