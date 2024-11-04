@@ -6,12 +6,10 @@ import json
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 client = OpenAI()
 
-with open("LeanAideAnalysis/Embeddings/unique_terms.json", 'r', encoding='utf-8') as infile, open("LeanAideAnalysis/Embeddings/embeddings.jsonl", 'a') as outfile:
-    i=1998
+with open("LeanAideAnalysis/Embeddings/unique_terms.json", 'r', encoding='utf-8') as infile, open("LeanAideAnalysis/Embeddings/embeddings32001-34794.jsonl", 'a') as outfile:
+    i=34300
     unique_terms = json.load(infile)[i:]
     for term in unique_terms:
-        print(i,term)
-        i+=1
         response = client.embeddings.create(
             input=term,
             model="text-embedding-3-small",
