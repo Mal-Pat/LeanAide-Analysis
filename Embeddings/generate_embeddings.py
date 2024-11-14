@@ -3,7 +3,7 @@ import openai
 import os
 import json
 
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+# openai.api_key = os.environ.get("OPENAI_API_KEY")
 client = OpenAI()
 
 with open("LeanAideAnalysis/Embeddings/unique_terms.json", 'r', encoding='utf-8') as infile, open("LeanAideAnalysis/Embeddings/embeddings32001-34794.jsonl", 'a') as outfile:
